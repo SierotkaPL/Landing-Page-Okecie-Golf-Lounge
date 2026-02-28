@@ -77,11 +77,12 @@
         }
         .hero-bg {
             position: absolute;
-            inset: -20% 0;              /* dodatkowy margines na przesunięcie */
+            left: 0; right: 0;
+            top: -30%;                   /* duży margines na ruch w górę/dół */
+            height: 160%;               /* tło jest 60% wyższe niż hero */
             background: #000 url('bg.png') center/cover no-repeat;
             z-index: 0;
             will-change: transform;
-            transition: none;
         }
         .hero-overlay {
             position: absolute; inset: 0;
@@ -475,32 +476,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const hero = document.getElementById('hero');
 
     if (heroBg) {
-        // Użycie transform zamiast background-attachment: fixed
-        // Działa na mobile i jest płynniejsze (GPU-accelerated)
+        const PARALLAX_SPEED = 0.5; // 0 = tło stoi, 1 = jedzie razem ze scrollem
+
         const updateParallax = () => {
             const scrolled = window.scrollY;
             const heroHeight = hero.offsetHeight;
 
-            // Parallax tylko w obrębie hero (nie ma sensu dalej)
-            if (scrolled <= heroHeight) {
-                const yOffset = scrolled * 0.35; // 0.35 = intensywność parallax
+            if (scrolled <= heroHeight * 1.2) {
+                // Tło przesuwa się W GÓRĘ (ujemne Y) — wolniej niż strona
+                // Daje efekt "głębi" — strona odjeżdża od tła
+                const yOffset = -(scrolled * PARALLAX_SPEED);
                 heroBg.style.transform = `translate3d(0, ${yOffset}px, 0)`;
             }
         };
 
         window.addEventListener('scroll', updateParallax, { passive: true });
-        updateParallax(); // initial call
+        updateParallax();
 
         // Subtelny mousemove na desktop
         if (window.matchMedia('(hover: hover)').matches) {
             hero.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 8;
-                const y = (e.clientY / window.innerHeight - 0.5) * 8;
-                const scrollOffset = window.scrollY * 0.35;
+                const x = (e.clientX / window.innerWidth - 0.5) * 15;
+                const y = (e.clientY / window.innerHeight - 0.5) * 15;
+                const scrollOffset = -(window.scrollY * PARALLAX_SPEED);
                 heroBg.style.transform = `translate3d(${x}px, ${scrollOffset + y}px, 0)`;
             });
             hero.addEventListener('mouseleave', () => {
-                const scrollOffset = window.scrollY * 0.35;
+                const scrollOffset = -(window.scrollY * PARALLAX_SPEED);
                 heroBg.style.transform = `translate3d(0, ${scrollOffset}px, 0)`;
             });
         }
@@ -549,34 +551,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- FORM SUBMIT --- */
+    /* --- FORM SUBMIT → GOOGLE SHEETS --- */
+    // ⚠️ WKLEJ SWÓJ URL z Google Apps Script poniżej:
+    const GOOGLE_SCRIPT_URL = 'TUTAJ_WKLEJ_URL_Z_APPS_SCRIPT';
+
     const form = document.getElementById('lead-form');
     const successMsg = document.getElementById('success-msg');
     const submitBtn = document.getElementById('submit-btn');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const data = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
             experience: document.querySelector('[data-field="experience"] .chip.active')?.dataset.value || '',
             interests: [...document.querySelectorAll('[data-field="interests"] .chip.active')].map(c => c.dataset.value),
             price: document.getElementById('price').value
         };
 
-        console.log('Lead data:', data);
-
         submitBtn.textContent = 'Wysyłanie...';
         submitBtn.disabled = true;
 
-        // TODO: Zamień setTimeout na fetch() do Google Sheets / Formspree
-        setTimeout(() => {
+        try {
+            // Wysyłka do Google Sheets
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',   // wymagane przez Apps Script
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            // Sukces — mode: no-cors nie zwraca body, ale dane dochodzą
             form.classList.add('hidden');
             successMsg.classList.remove('hidden');
             document.getElementById('success-name').textContent = `Dziękujemy, ${data.name}!`;
-        }, 800);
+
+        } catch (error) {
+            console.error('Błąd wysyłki:', error);
+            submitBtn.textContent = 'Spróbuj ponownie';
+            submitBtn.disabled = false;
+
+            // Fallback — zapisz w localStorage żeby nie stracić danych
+            const pending = JSON.parse(localStorage.getItem('golf_pending_leads') || '[]');
+            pending.push({ ...data, timestamp: new Date().toISOString() });
+            localStorage.setItem('golf_pending_leads', JSON.stringify(pending));
+        }
     });
 });
 </script>
