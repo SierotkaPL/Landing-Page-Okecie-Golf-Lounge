@@ -4,167 +4,580 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Okęcie Golf Lounge • Symulator Golfa ul. Nadziei • Warszawa</title>
-    <meta name="description" content="Pierwszy premium symulator golfa na Okęciu. ul. Nadziei, Warszawa. TrackMan, lounge, bar, ligi i eventy firmowe. Otwarcie czerwiec 2026.">
+    <meta name="description" content="Pierwszy premium symulator golfa na Okęciu. ul. Nadziei, Warszawa. TrackMan, lounge, bar, ligi i eventy firmowe. Otwarcie czerwiec 2026. Zapisz się na listę VIP i odbierz -50%.">
+    <meta name="keywords" content="symulator golfa Okęcie, indoor golf Warszawa, golf lounge Okęcie, ul. Nadziei golf, symulator golfa Warszawa Okęcie">
+    <!-- OG Tags -->
+    <meta property="og:title" content="Okęcie Golf Lounge — Symulator Golfa Premium">
+    <meta property="og:description" content="Budujemy pierwsze centrum symulatora golfowego premium na Okęciu. Zapisz się i odbierz -50%.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sierotkapl.github.io/Landing-Page-Okecie-Golf-Lounge/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --emerald: #10b981;
             --emerald-deep: #059669;
+            --emerald-glow: rgba(16, 185, 129, 0.35);
             --gold: #d4a853;
+            --gold-dim: rgba(212, 168, 83, 0.15);
             --bg-base: #0a0f1a;
+            --bg-card: #111827;
+            --bg-elevated: #1a2235;
             --text-bright: #f1f5f9;
             --text-mid: #94a3b8;
+            --text-dim: #64748b;
+            --border-subtle: rgba(255,255,255,0.06);
+            --radius: 16px;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg-base); color: var(--text-bright); line-height: 1.65; }
 
-        /* NAV */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-bright);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAV ===== */
         .nav {
-            position: fixed; top:0; left:0; width:100%; z-index:100;
-            padding: 1.25rem 5%; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(10,15,26,0.75); backdrop-filter: blur(20px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            padding: 1.25rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10,15,26,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
             transition: all .3s ease;
         }
-        .nav.scrolled { background: rgba(10,15,26,0.95); }
-        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 900; }
+        .nav.scrolled { padding: .85rem 5%; background: rgba(10,15,26,0.95); }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.45rem; font-weight: 900; letter-spacing: .5px;
+        }
         .nav-logo span { color: var(--emerald); }
+        .nav-cta {
+            text-decoration: none; color: var(--text-bright);
+            font-weight: 700; font-size: .85rem; letter-spacing: .5px;
+            border: 1.5px solid var(--emerald); padding: .55rem 1.4rem;
+            border-radius: 50px; transition: all .3s ease; text-transform: uppercase;
+        }
+        .nav-cta:hover { background: var(--emerald); color: var(--bg-base); box-shadow: 0 0 20px var(--emerald-glow); }
 
-        /* HERO – ROZJAŚNIONE TŁO */
+        /* ===== HERO z PARALLAX ===== */
         .hero {
             position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
             padding: 0 5%;
-            background: #000 url('bg.png') center/cover no-repeat;
-            background-attachment: fixed;
             overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: -20% 0;              /* dodatkowy margines na przesunięcie */
+            background: #000 url('bg.png') center/cover no-repeat;
+            z-index: 0;
+            will-change: transform;
+            transition: none;
         }
         .hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(100deg, rgba(10,15,26,0.65) 0%, rgba(10,15,26,0.45) 40%, rgba(10,15,26,0.15) 100%);
+            background: linear-gradient(100deg,
+                rgba(10,15,26,0.92) 0%,
+                rgba(10,15,26,0.7) 35%,
+                rgba(10,15,26,0.2) 100%);
             z-index: 1;
         }
-        .hero-inner { position: relative; z-index: 2; max-width: 640px; padding-top: 6rem; }
-
-        .hero-badge { 
-            display: inline-flex; align-items: center; gap: .5rem;
-            background: rgba(212,168,83,0.15); color: var(--gold); 
-            font-size: .75rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
-            padding: .45rem 1.1rem; border-radius: 50px; margin-bottom: 1.8rem;
+        .hero-inner {
+            position: relative; z-index: 2;
+            max-width: 640px; padding-top: 6rem;
         }
-        .hero h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: clamp(2.6rem, 5vw, 4rem); 
-            font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem;
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: var(--gold-dim); color: var(--gold);
+            font-size: .75rem; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            padding: .45rem 1.1rem; border-radius: 50px;
+            border: 1px solid rgba(212,168,83,0.2); margin-bottom: 1.8rem;
+        }
+        .hero-badge::before {
+            content: ''; width: 6px; height: 6px;
+            background: var(--gold); border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 5vw, 4rem);
+            font-weight: 900; line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
         .hero h1 span { color: var(--emerald); }
         .hero-sub { font-size: 1.15rem; color: var(--text-mid); margin-bottom: 1rem; max-width: 520px; }
-        .hero-location { display: inline-flex; align-items: center; gap: .4rem; font-size: .95rem; color: var(--emerald); font-weight: 500; margin-bottom: 1.5rem; }
+        .hero-location {
+            display: inline-flex; align-items: center; gap: .4rem;
+            font-size: .95rem; color: var(--emerald); font-weight: 500; margin-bottom: 1.5rem;
+        }
         .countdown { font-size: 1.1rem; color: var(--gold); font-weight: 700; margin-bottom: 2.5rem; }
         .hero-cta {
-            display: inline-block; background: var(--emerald); color: #000;
-            padding: 1.05rem 2.6rem; border-radius: 50px; font-weight: 700;
-            box-shadow: 0 6px 24px rgba(16,185,129,0.4);
+            display: inline-block; text-decoration: none;
+            background: var(--emerald); color: var(--bg-base);
+            padding: 1.05rem 2.6rem; border-radius: 50px;
+            font-size: 1.05rem; font-weight: 700;
+            box-shadow: 0 6px 24px var(--emerald-glow);
+            transition: all .3s ease;
         }
+        .hero-cta:hover {
+            background: var(--emerald-deep); transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16,185,129,0.5);
+        }
+        .hero-micro { font-size: .78rem; color: var(--text-dim); margin-top: 1rem; display: block; }
 
-        /* reszta stylów */
-        .context-strip { background: #111827; padding: 2.5rem 5%; text-align: center; }
+        /* ===== CONTEXT STRIP ===== */
+        .context-strip {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 2.5rem 5%; text-align: center;
+        }
+        .context-strip p { font-size: .95rem; color: var(--text-mid); max-width: 700px; margin: 0 auto; }
+        .context-strip strong { color: var(--text-bright); }
+
+        /* ===== FEATURES ===== */
         .features { padding: 6rem 5%; }
         .section-header { text-align: center; margin-bottom: 4rem; }
-        .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-        .f-card { background: #111827; padding: 2.2rem 1.8rem; border-radius: 16px; }
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; margin-bottom: .75rem;
+        }
+        .section-header p { color: var(--text-mid); font-size: 1.05rem; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+        }
+        .f-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 2.2rem 1.8rem;
+            transition: all .35s ease;
+        }
+        .f-card:hover { transform: translateY(-6px); border-color: rgba(16,185,129,0.15); }
         .f-icon { font-size: 2.4rem; margin-bottom: 1.2rem; }
+        .f-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: .6rem; }
+        .f-card p { color: var(--text-mid); font-size: .92rem; }
 
-        .concept { padding: 5rem 5%; background: linear-gradient(180deg, #0a0f1a, #111827); }
+        /* ===== CONCEPT / LOCATION ===== */
+        .concept { padding: 5rem 5%; background: linear-gradient(180deg, var(--bg-base) 0%, var(--bg-card) 100%); }
+        .concept-inner { max-width: 900px; margin: 0 auto; }
+        .concept h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 900;
+            margin-bottom: 2rem; text-align: center;
+        }
         .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-        .reg { padding: 6rem 5%; }
-        .reg-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-        .reg-form-box { background: #111827; padding: 2.5rem; border-radius: 20px; }
-        .submit-btn { width: 100%; padding: 1.1rem; background: var(--emerald); color: #000; border: none; border-radius: 12px; font-weight: 700; }
+        .concept-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px; padding: 1.5rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .ci-icon {
+            width: 40px; height: 40px; min-width: 40px;
+            background: rgba(16,185,129,0.1); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .concept-item h4 { font-size: 1.05rem; margin-bottom: .3rem; }
+        .concept-item p { color: var(--text-mid); font-size: .9rem; }
+
+        /* ===== REGISTRATION ===== */
+        .reg { padding: 6rem 5%; display: flex; justify-content: center; }
+        .reg-container {
+            max-width: 1100px; width: 100%;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4rem; align-items: start;
+        }
+        .reg-left h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; margin-bottom: 1rem;
+        }
+        .reg-left h2 span { color: var(--emerald); }
+        .reg-left > p { color: var(--text-mid); font-size: 1.05rem; margin-bottom: 2rem; }
+        .vip-perks { display: flex; flex-direction: column; gap: .75rem; }
+        .vip-perk {
+            display: flex; align-items: center; gap: .6rem;
+            font-weight: 600; font-size: .95rem;
+        }
+        .vip-perk .check {
+            width: 22px; height: 22px; min-width: 22px;
+            background: rgba(16,185,129,0.12); border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--emerald); font-size: .75rem; font-weight: 900;
+        }
+
+        .reg-form-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: 20px; padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .reg-form-box h3 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+
+        .field { margin-bottom: 1.2rem; }
+        .field label {
+            display: block; font-size: .82rem; font-weight: 600;
+            color: var(--text-dim); margin-bottom: .35rem;
+            text-transform: uppercase; letter-spacing: .5px;
+        }
+        .field input, .field select {
+            width: 100%; padding: .85rem 1rem;
+            background: rgba(10,15,26,0.6);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; color: var(--text-bright);
+            font-size: .95rem; font-family: inherit;
+            transition: border-color .3s;
+        }
+        .field input::placeholder { color: var(--text-dim); }
+        .field input:focus, .field select:focus { outline: none; border-color: var(--emerald); }
+        .field select { cursor: pointer; }
+        .field select option { background: var(--bg-card); }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .survey-label {
+            font-size: .82rem; font-weight: 600; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: .5px;
+            margin-bottom: .5rem; display: block;
+        }
+        .chip-group { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.2rem; }
+        .chip {
+            padding: .5rem 1rem; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: var(--text-mid);
+            font-size: .85rem; cursor: pointer; transition: all .25s ease;
+            font-family: inherit;
+        }
+        .chip:hover { border-color: var(--emerald); color: var(--text-bright); }
+        .chip.active {
+            background: rgba(16,185,129,0.15);
+            border-color: var(--emerald); color: var(--emerald); font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%; padding: 1.1rem;
+            background: var(--emerald); color: var(--bg-base);
+            border: none; border-radius: 12px;
+            font-size: 1.05rem; font-weight: 700; font-family: inherit;
+            cursor: pointer; transition: all .3s ease;
+            box-shadow: 0 4px 16px var(--emerald-glow);
+        }
+        .submit-btn:hover { background: var(--emerald-deep); transform: translateY(-1px); }
+        .submit-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+        .success-state { text-align: center; padding: 2rem 0; }
         .hidden { display: none !important; }
 
-        footer { padding: 3rem 5% 2rem; text-align: center; }
+        .form-note {
+            font-size: .75rem; color: var(--text-dim);
+            text-align: center; margin-top: 1.2rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 3rem 5% 2rem; text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+        footer .nav-logo { margin-bottom: .75rem; display: inline-block; }
+        footer p { color: var(--text-dim); font-size: .82rem; margin-bottom: .3rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .reg-container { grid-template-columns: 1fr; gap: 2.5rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: clamp(2rem, 7vw, 2.8rem); }
+            .hero-sub { font-size: 1rem; }
+            .field-row { grid-template-columns: 1fr; }
+            .reg-form-box { padding: 1.8rem; }
+            .features { padding: 4rem 5%; }
+            .concept { padding: 3rem 5%; }
+            .reg { padding: 4rem 5%; }
+        }
+        @media (max-width: 480px) {
+            .nav { padding: 1rem 4%; }
+            .nav-logo { font-size: 1.2rem; }
+            .nav-cta { font-size: .75rem; padding: .45rem 1rem; }
+            .hero-inner { padding-top: 5rem; }
+            .hero-cta { padding: .9rem 2rem; font-size: .95rem; }
+        }
     </style>
 </head>
 <body>
 
+<!-- ===== NAV ===== -->
 <nav class="nav" id="nav">
     <div class="nav-logo">Okęcie <span>Golf Lounge</span></div>
     <a href="#rejestracja" class="nav-cta">Odbierz -50%</a>
 </nav>
 
-<header class="hero">
+<!-- ===== HERO z PARALLAX ===== -->
+<header class="hero" id="hero">
+    <div class="hero-bg" id="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-inner">
         <div class="hero-badge">Wkrótce otwarcie</div>
         <h1>Prawdziwy golf.<br><span>Cały rok. Na Okęciu.</span></h1>
-        <p class="hero-sub">Budujemy pierwsze centrum symulatora golfowego premium na warszawskim Okęciu — TrackMan, lounge, bar i ligi. 7 minut od Lotniska Chopina.</p>
-        <div class="hero-location">ul. Nadziei, Okęcie — Warszawa</div>
-        <div class="countdown" id="countdown">Otwarcie za: <span id="days">107</span>d <span id="hours">14</span>h</div>
+        <p class="hero-sub">Budujemy pierwsze centrum symulatora golfowego premium na warszawskim Okęciu — TrackMan, strefa lounge, bar i ligi. 7 minut od Lotniska Chopina.</p>
+        <div class="hero-location">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+            ul. Nadziei, Okęcie — Warszawa
+        </div>
+        <div class="countdown">Otwarcie za: <span id="days">--</span>d <span id="hours">--</span>h</div>
         <a href="#rejestracja" class="hero-cta">Zapisz się — zdobądź 50% zniżki</a>
+        <span class="hero-micro">*Zostaw kontakt, zapłacisz połowę przy pierwszej wizycie. Zero zobowiązań.</span>
     </div>
 </header>
 
-<!-- reszta strony (bez zmian) -->
+<!-- ===== CONTEXT STRIP ===== -->
 <div class="context-strip">
-    <p>Istniejące symulatory w Warszawie są skoncentrowane w centrum i na północy. <strong>Na Okęciu nie ma żadnego dedykowanego centrum.</strong> Chcemy to zmienić.</p>
+    <p>Istniejące symulatory w Warszawie są skoncentrowane w centrum i na&nbsp;północy — Easy Golf, WaWa Golf, Epic Golf. <strong>Na Okęciu i&nbsp;południowym zachodzie Warszawy nie ma żadnego dedykowanego centrum.</strong> Chcemy to zmienić.</p>
 </div>
 
+<!-- ===== FEATURES ===== -->
 <section class="features">
     <div class="section-header">
         <h2>Co planujemy zbudować</h2>
-        <p>Centrum golfowe premium</p>
+        <p>Centrum golfowe premium, nie kolejny pojedynczy symulator w hotelu</p>
     </div>
     <div class="features-grid">
-        <div class="f-card"><div class="f-icon">🎯</div><h3>Symulatory TrackMan</h3><p>Minimum 3 stanowiska z pełną analizą.</p></div>
-        <div class="f-card"><div class="f-icon">🌍</div><h3>150+ pól golfowych</h3><p>Pebble Beach, St Andrews w HD.</p></div>
-        <div class="f-card"><div class="f-icon">🍸</div><h3>Strefa Lounge & Bar</h3><p>Piwo, kawa, miejsce do spotkań.</p></div>
-        <div class="f-card"><div class="f-icon">🏆</div><h3>Ligi i eventy</h3><p>Turnieje i imprezy firmowe.</p></div>
+        <div class="f-card"><div class="f-icon">🎯</div><h3>Symulatory TrackMan</h3><p>Minimum 3 stanowiska z pełną analizą swingu — prędkość głowicy, kąt ataku, spin, carry.</p></div>
+        <div class="f-card"><div class="f-icon">🌍</div><h3>150+ pól golfowych</h3><p>Pebble Beach, St Andrews, Augusta — graj na najsłynniejszych polach świata w HD.</p></div>
+        <div class="f-card"><div class="f-icon">🏆</div><h3>Ligi i turnieje</h3><p>Cotygodniowe ligi stableford i stroke play. Rywalizacja online i lokalne eventy.</p></div>
+        <div class="f-card"><div class="f-icon">🍸</div><h3>Strefa Lounge & Bar</h3><p>Piwo kraftowe, kawa specialty, przekąski. Miejsce do spotkań, nie tylko trening.</p></div>
+        <div class="f-card"><div class="f-icon">👨‍🏫</div><h3>Trenerzy PGA</h3><p>Profesjonalni instruktorzy na miejscu. Lekcje indywidualne, kursy na zieloną kartę.</p></div>
+        <div class="f-card"><div class="f-icon">🎉</div><h3>Eventy firmowe</h3><p>Wynajem na imprezy integracyjne, urodziny, spotkania biznesowe.</p></div>
     </div>
 </section>
 
+<!-- ===== CONCEPT + MAPA ===== -->
+<section class="concept">
+    <div class="concept-inner">
+        <h2>Szczegóły lokalizacji</h2>
+        <div class="concept-grid">
+            <div class="concept-item"><div class="ci-icon">🚗</div><div><h4>Parking na miejscu</h4><p>Darmowy parking. Łatwy dojazd z Okęcia, Włoch, Ursusa i Mokotowa.</p></div></div>
+            <div class="concept-item"><div class="ci-icon">🕐</div><div><h4>Elastyczne godziny</h4><p>Planujemy działać 7 dni w tygodniu, 8:00–23:00, z opcją 24/7.</p></div></div>
+            <div class="concept-item"><div class="ci-icon">💳</div><div><h4>Przystępne ceny</h4><p>Planowane 150-200 zł/h za stanowisko (do 4 osób). Karnety miesięczne taniej.</p></div></div>
+            <div class="concept-item"><div class="ci-icon">🏌️</div><div><h4>Sprzęt na miejscu</h4><p>Kije do wypożyczenia. Przechowalnia własnych kijów.</p></div></div>
+        </div>
+        <div style="margin-top: 2.5rem; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2444.8!2d20.9495!3d52.1795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecb3f8e4b0b0b%3A0x0!2zVWwuIE5hZHppZWksIFdhcnN6YXdh!5e0!3m2!1spl!2spl!4v1740750000000" width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- ===== REJESTRACJA ===== -->
 <section id="rejestracja" class="reg">
     <div class="reg-container">
         <div class="reg-left">
             <h2>Pomóż nam zbudować<br><span>idealne miejsce</span></h2>
-            <p>Twoje odpowiedzi pomogą nam zaprojektować centrum dokładnie pod Ciebie.</p>
+            <p>To nie jest tylko zapis na newsletter. Twoje odpowiedzi pomogą nam zaprojektować centrum dokładnie pod potrzeby lokalnej społeczności golfowej. W zamian — 50% zniżki na pierwszą sesję po otwarciu.</p>
             <div class="vip-perks">
-                <div class="vip-perk">✓ 50% taniej pierwsza godzina</div>
-                <div class="vip-perk">✓ Priorytetowa rezerwacja</div>
-                <div class="vip-perk">✓ Zero spamu</div>
+                <div class="vip-perk"><span class="check">✓</span> 50% taniej pierwsza godzina gry</div>
+                <div class="vip-perk"><span class="check">✓</span> Priorytetowa rezerwacja przed otwarciem</div>
+                <div class="vip-perk"><span class="check">✓</span> Wpływ na ofertę i wyposażenie</div>
+                <div class="vip-perk"><span class="check">✓</span> Zero spamu — max 2 wiadomości do otwarcia</div>
             </div>
         </div>
+
         <div class="reg-form-box">
-            <!-- formularz – możesz wkleić swój poprzedni jeśli chcesz, albo zostawić prosty -->
             <h3>Zapisz się na listę VIP</h3>
             <form id="lead-form">
-                <input type="text" id="name" placeholder="Imię" required style="width:100%;padding:1rem;margin-bottom:1rem;background:#1a2235;border:none;border-radius:10px;color:white;">
-                <input type="email" id="email" placeholder="E-mail" required style="width:100%;padding:1rem;margin-bottom:1rem;background:#1a2235;border:none;border-radius:10px;color:white;">
-                <button type="submit" class="submit-btn">Zapisz mnie</button>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="name">Imię</label>
+                        <input type="text" id="name" name="name" placeholder="Twoje imię" required>
+                    </div>
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="twoj@email.pl" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="phone">Telefon (opcjonalnie)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+48 000 000 000">
+                </div>
+
+                <span class="survey-label">Twoje doświadczenie z golfem</span>
+                <div class="chip-group" data-field="experience">
+                    <button type="button" class="chip" data-value="beginner">Nigdy nie grałem/am</button>
+                    <button type="button" class="chip" data-value="casual">Kilka razy</button>
+                    <button type="button" class="chip" data-value="regular">Gram regularnie</button>
+                    <button type="button" class="chip" data-value="pro">Mam handicap</button>
+                </div>
+
+                <span class="survey-label">Co Cię najbardziej interesuje? (wielokrotny wybór)</span>
+                <div class="chip-group multi" data-field="interests">
+                    <button type="button" class="chip" data-value="training">Trening swingu</button>
+                    <button type="button" class="chip" data-value="fun">Zabawa ze znajomymi</button>
+                    <button type="button" class="chip" data-value="league">Ligi / turnieje</button>
+                    <button type="button" class="chip" data-value="events">Imprezy firmowe</button>
+                    <button type="button" class="chip" data-value="lessons">Lekcje z trenerem</button>
+                </div>
+
+                <div class="field">
+                    <label for="price">Ile byłbyś/abyś skłonny/a zapłacić za godzinę?</label>
+                    <select id="price" name="price">
+                        <option value="">Wybierz...</option>
+                        <option value="100-150">100–150 zł</option>
+                        <option value="150-200">150–200 zł</option>
+                        <option value="200-250">200–250 zł</option>
+                        <option value="250+">250+ zł (premium)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">Zapisz mnie na listę VIP</button>
+                <p class="form-note">Zapisując się, akceptujesz politykę prywatności. To badanie rynku — Twoje odpowiedzi pomogą nam stworzyć najlepsze centrum golfowe w tej części Warszawy.</p>
             </form>
+
+            <div id="success-msg" class="success-state hidden">
+                <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+                <h3 id="success-name">Dziękujemy!</h3>
+                <p>Otrzymasz swój kod rabatowy -50% na podany adres e-mail, gdy tylko potwierdzimy datę otwarcia. Twoje odpowiedzi są dla nas bezcenne!</p>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- ===== FOOTER ===== -->
 <footer>
     <div class="nav-logo">Okęcie <span>Golf Lounge</span></div>
-    <p>Badamy zapotrzebowanie na centrum symulatora golfowego — Warszawa, Okęcie.</p>
+    <p>Badamy zapotrzebowanie na centrum symulatora golfowego premium — Warszawa, Okęcie.</p>
+    <p>&copy; 2026 Okęcie Golf Lounge. Wszelkie prawa zastrzeżone.</p>
 </footer>
 
+<!-- ===== JAVASCRIPT ===== -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 12 - 6;
-            const y = (e.clientY / window.innerHeight) * 12 - 6;
-            hero.style.backgroundPosition = `calc(50% + ${x}px) calc(50% + ${y}px)`;
-        });
-        hero.addEventListener('mouseleave', () => hero.style.backgroundPosition = 'center');
+
+    /* --- NAV SCROLL --- */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* --- PARALLAX na HERO background --- */
+    const heroBg = document.getElementById('hero-bg');
+    const hero = document.getElementById('hero');
+
+    if (heroBg) {
+        // Użycie transform zamiast background-attachment: fixed
+        // Działa na mobile i jest płynniejsze (GPU-accelerated)
+        const updateParallax = () => {
+            const scrolled = window.scrollY;
+            const heroHeight = hero.offsetHeight;
+
+            // Parallax tylko w obrębie hero (nie ma sensu dalej)
+            if (scrolled <= heroHeight) {
+                const yOffset = scrolled * 0.35; // 0.35 = intensywność parallax
+                heroBg.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+            }
+        };
+
+        window.addEventListener('scroll', updateParallax, { passive: true });
+        updateParallax(); // initial call
+
+        // Subtelny mousemove na desktop
+        if (window.matchMedia('(hover: hover)').matches) {
+            hero.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 8;
+                const y = (e.clientY / window.innerHeight - 0.5) * 8;
+                const scrollOffset = window.scrollY * 0.35;
+                heroBg.style.transform = `translate3d(${x}px, ${scrollOffset + y}px, 0)`;
+            });
+            hero.addEventListener('mouseleave', () => {
+                const scrollOffset = window.scrollY * 0.35;
+                heroBg.style.transform = `translate3d(0, ${scrollOffset}px, 0)`;
+            });
+        }
     }
+
+    /* --- COUNTDOWN --- */
+    const openDate = new Date("2026-06-15T12:00:00").getTime();
+    const updateCountdown = () => {
+        const distance = openDate - Date.now();
+        if (distance > 0) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        }
+    };
+    updateCountdown();
+    setInterval(updateCountdown, 60000); // co minutę wystarczy
+
+    /* --- SMOOTH SCROLL --- */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - nav.offsetHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    /* --- CHIP LOGIC --- */
+    document.querySelectorAll('.chip-group').forEach(group => {
+        const isMulti = group.classList.contains('multi');
+        group.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                if (isMulti) {
+                    chip.classList.toggle('active');
+                } else {
+                    group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                }
+            });
+        });
+    });
+
+    /* --- FORM SUBMIT --- */
+    const form = document.getElementById('lead-form');
+    const successMsg = document.getElementById('success-msg');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            experience: document.querySelector('[data-field="experience"] .chip.active')?.dataset.value || '',
+            interests: [...document.querySelectorAll('[data-field="interests"] .chip.active')].map(c => c.dataset.value),
+            price: document.getElementById('price').value
+        };
+
+        console.log('Lead data:', data);
+
+        submitBtn.textContent = 'Wysyłanie...';
+        submitBtn.disabled = true;
+
+        // TODO: Zamień setTimeout na fetch() do Google Sheets / Formspree
+        setTimeout(() => {
+            form.classList.add('hidden');
+            successMsg.classList.remove('hidden');
+            document.getElementById('success-name').textContent = `Dziękujemy, ${data.name}!`;
+        }, 800);
+    });
 });
 </script>
 </body>
